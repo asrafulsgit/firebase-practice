@@ -8,15 +8,25 @@ const Admin = () => {
      useEffect(()=>{
           const adminRef = ref(db,'student')
           get(adminRef).then((data)=>{
-               setData(data.val())
+               if(data.exists()) setData(data.val())
                setLoading(false)
           })
      },[])
      const handleDelete =(username)=>{
-          const adminRef = ref(db,'student/'+ username)
+          const adminRef = ref(db,`student/${username}`)
           remove(adminRef)
-          .then(()=> console.log(username + 'Deleted'))
-          .catch((err)=> console.log(username + 'is not Delete'))
+          .then(() => {
+               setData(prevData => {
+                    const updatedData = { ...prevData };
+                    delete updatedData[username]; 
+                    return updatedData;
+                  });
+            console.log('Student removed successfully!');
+          })
+          .catch((error) => {
+            console.error('Error removing student:', error);
+          });
+         
      }
   return (
     <div className='px-20 pt-5'>
@@ -39,8 +49,8 @@ const Admin = () => {
                          <td>{value.name}</td>
                          <td>{value.roll}</td>
                          <td>
-                             <Link onClick={()=>handleDelete(value.username)}> <button className="btn btn-error">Error</button></Link>
-                             <Link to={`/update/${value.username}`}> <button class="btn btn-info">Info</button></Link>
+                             <Link onClick={()=>handleDelete(value.username)}> <button className="btn btn-error">Delete</button></Link>
+                             <Link to={`/update/${value.username}`}> <button className="btn btn-info">Update</button></Link>
                          </td>
                     </tr>
                  )
