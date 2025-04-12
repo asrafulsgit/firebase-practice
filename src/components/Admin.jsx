@@ -1,0 +1,59 @@
+import React, { useEffect, useState } from 'react'
+import {db} from '../utils/firebase'
+import { get, ref, remove } from 'firebase/database'
+import { Link } from 'react-router-dom'
+const Admin = () => {
+     const [data,setData]=useState({})
+     const [loading,setLoading]=useState(true)
+     useEffect(()=>{
+          const adminRef = ref(db,'student')
+          get(adminRef).then((data)=>{
+               setData(data.val())
+               setLoading(false)
+          })
+     },[])
+     const handleDelete =(username)=>{
+          const adminRef = ref(db,'student/'+ username)
+          remove(adminRef)
+          .then(()=> console.log(username + 'Deleted'))
+          .catch((err)=> console.log(username + 'is not Delete'))
+     }
+  return (
+    <div className='px-20 pt-5'>
+     <h1 className='font-bold text-2xl mb-5 text-center'>Students List</h1>
+     <div className="overflow-x-auto">
+          <table className="table">
+          <thead>
+               <tr>
+               <th>username</th>
+               <th>Name</th>
+               <th>Roll</th>
+               <th>Actions</th>
+               </tr>
+          </thead>
+          <tbody>
+          {Object.keys(data).length > 0 ? Object.entries(data).map(([key,value],index)=>{
+                 return(
+                    <tr key={index}>
+                         <td>{value.username}</td>
+                         <td>{value.name}</td>
+                         <td>{value.roll}</td>
+                         <td>
+                             <Link onClick={()=>handleDelete(value.username)}> <button className="btn btn-error">Error</button></Link>
+                             <Link to={`/update/${value.username}`}> <button class="btn btn-info">Info</button></Link>
+                         </td>
+                    </tr>
+                 )
+               }) : <tr><td className='text-center' colSpan={3}>{loading ? 'Loading...' : 'Student is not available!'}</td></tr>}
+          </tbody>
+          </table>
+     </div>
+    </div>
+  )
+}
+
+export default Admin
+
+
+
+
