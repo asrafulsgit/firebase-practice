@@ -31,6 +31,7 @@ const Update = () => {
       .then(() => navigate('/admin'))
       .catch((err) => console.log(err));
   };
+  
   if (loading) {
     return (
       <div className="w-full min-h-[90vh] flex flex-col justify-center items-center">
@@ -66,6 +67,7 @@ const Update = () => {
           placeholder="Enter roll"
           className="input border rounded-[3px] px-2 text-[16px] outline-none"
         />
+        
         <button type="submit" className="btn btn-success">
           Sign up
         </button>
