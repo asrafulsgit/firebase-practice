@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { collection,addDoc } from 'firebase/firestore'
 import { fireStoreDb } from '../../utils/firebase'
 const SignUp_Firestore_Database = () => {
@@ -16,8 +16,8 @@ const SignUp_Firestore_Database = () => {
        const handleSubmit=async(e)=>{
             e.preventDefault()
             try {
-               const userInfoRef = await addDoc(collection(fireStoreDb,'students',userInfo))
-               console.log(userInfoRef)
+               await addDoc(collection(fireStoreDb,'students'),userInfo)
+               setUserInfo(intitialUserInfo)
             } catch (error) {
                console.log(error)
             }
@@ -25,6 +25,7 @@ const SignUp_Firestore_Database = () => {
        }
        return (
             <div className='w-full min-h-[90vh] flex flex-col gap-2 justify-center items-center'>
+             <h1 className='font-bold text-xl'>FireStore Database</h1>
              <h1 className='font-bold text-2xl'>Sign Up</h1>
               <form action="" onSubmit={handleSubmit} className='flex flex-col gap-2'>
                  <input onChange={handleChange} value={userInfo.username} name='username'  type="text" placeholder="Enter user name" className="input border rounded-[3px] px-2 text-[16px] outline-none" />

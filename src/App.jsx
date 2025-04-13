@@ -5,8 +5,9 @@ import Home from './components/Home'
 import SignUp from './components/SignUp'
 import Nav from './components/Nav'
 import Admin from './components/admin'
-import Update from './components/Update'
 import Image from './components/Image'
+import Update_Firestore_database from './components/update/Update_Firestore_database'
+import Update_Realtime_databse from './components/update/Update_Realtime_databse'
 
 const App = () => {
   return (
@@ -20,7 +21,8 @@ const App = () => {
       <Route path='/admin' element={<Admin />} />
       <Route path='/image' element={<Image />} />
 
-      <Route path='/update/:username' element={<Update />} />
+      <Route path='/update/realtime/:username' element={<Update_Realtime_databse />} /> // update realtime database
+      <Route path='/update/firestore/:id' element={<Update_Firestore_database />} /> // update realtime database
      </Routes>
     </BrowserRouter>
     
