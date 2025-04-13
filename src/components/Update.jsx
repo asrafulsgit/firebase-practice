@@ -43,8 +43,8 @@ const Update = () => {
       <h1 className="font-bold text-2xl">Update Student</h1>
       <form action="" onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
-          onChange={handleChange}
           value={userInfo.username}
+          disabled
           name="username"
           type="text"
           placeholder="Enter user name"
